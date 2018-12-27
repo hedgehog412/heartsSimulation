@@ -53,6 +53,23 @@ class Hearts:
 		# Generate a full deck of cards and shuffle it
 		self.newRound()
 
+	def getFourth(self):
+		big=max(self.currentTrick[0],self.currentTrick[1],self.currentTrick[2])
+		small=min(self.currentTrick[0],self.currentTrick[1],self.currentTrick[2])
+		if self.curPlayer.hasSuit(curr.suit):
+			if not heartsBroken:
+				#card=self.curPlayer.hand.getBigCon(curr.suit, small.rank.rank)
+				#card=self.curPlayer.hand.getBiggest(curr.suit)
+				card=self.curPlayer.hand.getBigCond(curr.suit,small.rank.rank,big.rank.rank)
+
+			else:
+				card=self.curPlayer.hand.getBigCon(curr.suit, small.rank.rank)
+				#card=self.curPlayer.hand.getBiggest(curr.suit)
+				#card=self.curPlayer.hand.getBigCond(curr.suit,small.rank.rank,big.rank.rank)
+		else:
+			#card=self.curPlayer.hand.getBig()
+			card=self.curPlayer.hand.getBiggest(hearts)
+
 	def handleScoring(self):
 		p, highestScore = None, 0
 		print "\nScores:\n"
@@ -153,6 +170,7 @@ class Hearts:
 		return out
 
 
+
 	def playersPassCards(self):
 		
 		self.printPlayers()
@@ -185,8 +203,10 @@ class Hearts:
 			addCard = None
 
 			while addCard is None: # wait until a valid card is passed
-				
-				addCard = curPlayer.play(auto=auto) # change auto to False to play manually
+				if curPlayer.name is "me" and self.currentTrick.cardsInTrick is 3:
+					addCard=curPlayer.play(c=self.getFourth)
+				else:
+					addCard = curPlayer.play(auto=auto) # change auto to False to play manually
 
 
 				# the rules for what cards can be played
@@ -275,6 +295,7 @@ class Hearts:
 				winner = p
 				minScore = p.score
 		return winner
+
 
 
 

@@ -38,7 +38,7 @@ class Hearts:
 
 		# Make four players
 
-		self.players = [Player("Danny"), Player("Desmond"), Player("Ben"), Player("Me")]
+		self.players = [Player("Danny"), Player("Desmond"), Player("Ben"), betterPlayer("Me")]
 		
 		'''
 		Player physical locations:
@@ -164,6 +164,70 @@ class Hearts:
 
 			self.distributePassedCards()
 			self.printPlayers()
+	def getFirst(self):
+	        card=None
+	        if not self.heartsBroken():
+	            while card is None:
+		                for a in big:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+		                for a in mid:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+		                for a in small:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+	        else:
+	        	while card is None:
+		                for a in big:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+		                for a in mid:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+		                for a in small:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return cards
+
+	def getSecond(self):
+		curr=self.currentTrick.trick[0]
+		if self.curPlayer.hasSuit(curr.suit):
+			if not heartsBroken:
+				#card=self.curPlayer.hand.getBiggest(curr.suit)
+				card=self.curPlayer.hand.getBigCon(curr.suit,curr.rank.rank)
+			else:
+				#card=self.curPlayer.hand.getBiggest(curr.suit)
+				card=self.curPlayer.hand.getBigCon(curr.suit,curr.rank.rank)
+		else:
+			card=self.curPlayer.hand.getBig()
+
+	def getThird(self):
+		big=max(self.currentTrick[0],self.currentTrick[1])
+		small=min(self.currentTrick[0],self.currentTrick[1])
+		if self.curPlayer.hasSuit(curr.suit):
+			if not heartsBroken:
+				card=self.curPlayer.hand.getBigCon(curr.suit, big.rank.rank)
+			else:
+				card=self.curPlayer.hand.getBigCond(curr.suit,small.rank.rank,big.rank.rank)
+		else:
+			card=self.curPlayer.hand.getBig()
+
+	def getFourth(self):
+    		if len(self.players[3].hand.hand[self.currentTrick.suit]) is not 0: 
+    			card=self.players[3].hand.getBiggest(self.currentTrick.suit)
+    			return card
+    		elif len(self.players[3].hand.hand[hearts]) is not 0: 
+    			card=self.players[3].hand.getBiggest(hearts)
+    			return card
+    		else: 
+    			card=self.players[3].hand.getBiggest()
+    			return card
 
 	def playTrick(self, start):
 		shift = 0
@@ -185,8 +249,17 @@ class Hearts:
 			addCard = None
 
 			while addCard is None: # wait until a valid card is passed
-				
-				addCard = curPlayer.play(auto=auto) # change auto to False to play manually
+				if curPlayer.name is "me":
+					if self.currentTrick.cardsInTrick is 0:
+						addCard=curPlayer.play(c=self.getFirst)
+					elif self.currentTrick.cardsInTrick is 1:
+						addCard=curPlayer.play(c=self.getSecond)
+					elif self.currentTrick.cardsInTrick is 2:
+						addCard=curPlayer.play(c=self.getThird)
+					else:
+						addCard=curPlayer.play(c=self.getFourth)
+				else:
+					addCard = curPlayer.play(auto=auto) # change auto to False to play manually
 
 
 				# the rules for what cards can be played
@@ -278,9 +351,10 @@ class Hearts:
 
 
 
+
 def main():
 	simNum=100
-	totalScore=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+	totalScore=[0,0,0,0]
 	for i in range(simNum):
 		hearts = Hearts()
 
@@ -326,6 +400,10 @@ def main():
 		print i.__str__()+"fourth: "+totalScore[i][3].__str__()
 		print 
 
+	string=""
+	for i in hearts.players[3].passRank:
+		string=string+i.__str__()+" "
+	print string
 
 
 if __name__ == '__main__':

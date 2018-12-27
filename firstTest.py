@@ -82,8 +82,36 @@ class Hearts:
 			self.scoreRank[1]=max(secondAndThird)
 			self.scoreRank[2]=min(secondAndThird)
 
-
-		
+	def getFirst(self):
+	        card=None
+	        if not self.heartsBroken():
+	            while card is None:
+		                for a in big:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+		                for a in small:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+		                for a in mid:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+	        else:
+	        	while card is None:
+		                for a in big:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+		                for a in mid:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
+		                for a in small:
+		                    card=self.players[3].hand.containsNum(a)
+		                    if card is not None:
+		                        return card
 
 	def newRound(self):
 		self.deck = Deck()
@@ -185,8 +213,10 @@ class Hearts:
 			addCard = None
 
 			while addCard is None: # wait until a valid card is passed
-				
-				addCard = curPlayer.play(auto=auto) # change auto to False to play manually
+				if curPlayer.name is "me" and self.currentTrick.cardsInTrick is 0:
+						addCard=curPlayer.play(c=self.getFirst)
+				else:
+					addCard = curPlayer.play(auto=auto) # change auto to False to play manually
 
 
 				# the rules for what cards can be played
@@ -275,6 +305,7 @@ class Hearts:
 				winner = p
 				minScore = p.score
 		return winner
+
 
 
 

@@ -83,7 +83,22 @@ class Hearts:
 			self.scoreRank[2]=min(secondAndThird)
 
 
-		
+	def getThird(self):
+		big=max(self.currentTrick[0],self.currentTrick[1])
+		small=min(self.currentTrick[0],self.currentTrick[1])
+		if self.curPlayer.hasSuit(curr.suit):
+				if not heartsBroken:
+					#card=self.curPlayer.hand.getBigCon(curr.suit, small.rank.rank)
+					#card=self.curPlayer.hand.getBiggest(curr.suit)
+					card=self.curPlayer.hand.getBigCond(curr.suit,small.rank.rank,big.rank.rank)
+
+				else:
+					#card=self.curPlayer.hand.getBigCon(curr.suit, small.rank.rank)
+					#card=self.curPlayer.hand.getBiggest(curr.suit)
+					card=self.curPlayer.hand.getBigCond(curr.suit,small.rank.rank,big.rank.rank)
+		else:
+				#card=self.curPlayer.hand.getBig()
+				card=self.curPlayer.hand.getBiggest(hearts)
 
 	def newRound(self):
 		self.deck = Deck()
@@ -185,8 +200,10 @@ class Hearts:
 			addCard = None
 
 			while addCard is None: # wait until a valid card is passed
-				
-				addCard = curPlayer.play(auto=auto) # change auto to False to play manually
+				if curPlayer.name is "me" and self.currentTrick.cardsInTrick is 2:
+					addCard=curPlayer.play(c=self.getThird)
+				else:
+					addCard = curPlayer.play(auto=auto) # change auto to False to play manually
 
 
 				# the rules for what cards can be played
@@ -278,6 +295,7 @@ class Hearts:
 
 
 
+
 def main():
 	simNum=100
 	totalScore=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
@@ -325,7 +343,6 @@ def main():
 		print i.__str__()+"third: "+totalScore[i][2].__str__()
 		print i.__str__()+"fourth: "+totalScore[i][3].__str__()
 		print 
-
 
 
 if __name__ == '__main__':

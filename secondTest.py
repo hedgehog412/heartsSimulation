@@ -83,7 +83,20 @@ class Hearts:
 			self.scoreRank[2]=min(secondAndThird)
 
 
-		
+	def getSecond(self):
+		curr=self.currentTrick.trick[0]
+		if self.curPlayer.hasSuit(curr.suit):
+			if not heartsBroken:
+				card=self.curPlayer.hand.getBiggest(curr.suit)
+				#card=self.curPlayer.hand.getBigCon(curr.suit,curr.rank.rank)
+			else:
+				card=self.curPlayer.hand.getBiggest(curr.suit)
+				#card=self.curPlayer.hand.getBigCon(curr.suit,curr.rank.rank)
+		else:
+			#card=self.curPlayer.hand.getBig()
+			card=self.curPlayer.hand.getBiggest(hearts)
+
+
 
 	def newRound(self):
 		self.deck = Deck()
@@ -185,8 +198,10 @@ class Hearts:
 			addCard = None
 
 			while addCard is None: # wait until a valid card is passed
-				
-				addCard = curPlayer.play(auto=auto) # change auto to False to play manually
+				if curPlayer.name is "me" and self.currentTrick.cardsInTrick is 1:
+					addCard=curPlayer.play(c=self.getSecond)
+				else:
+					addCard = curPlayer.play(auto=auto) # change auto to False to play manually
 
 
 				# the rules for what cards can be played
@@ -275,6 +290,7 @@ class Hearts:
 				winner = p
 				minScore = p.score
 		return winner
+
 
 
 

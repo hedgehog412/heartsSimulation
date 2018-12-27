@@ -142,4 +142,45 @@ class Hand:
 				handStr += card.__str__() + ' '
 		return handStr
 
+	def getBiggest(self,suit):
+	        big=2
+	        biggest=self.hand[suit][0]
+	        for card in self.hand[suit]:
+	            if big<card.rank.rank:
+	                big=card.rank.rank
+	                biggest=card
+	        return biggest
+
+	def getBigCon(self,suit,rank):
+			big=2
+			biggest=self.hand[suit][0]
+			for suit in self.hand:
+				for card in suit:
+					if big<card.rank.rank and card.rank.rank<rank:
+						big=card.rank.rank
+						biggest=card
+
+			return biggest
+
+	def getBigCond(self,suit,rank1,rank2):
+			big=2
+			biggest=self.hand[suit][0]
+			for suit in self.hand:
+				for card in suit:
+					if big<card.rank.rank and card.rank.rank>rank1 and card.rank.rank<rank2py:
+						big=card.rank.rank
+						biggest=card
+
+			return biggest
+
+	def getBig(self):
+	        big=2
+	        biggest=self.hand[0][0]
+	        for suit in self.hand:
+	            for card in suit:
+	                if big<card.rank.rank:
+	                    big=card.rank.rank
+	                    biggest=card
+	        return biggest
+
 

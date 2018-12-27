@@ -4,6 +4,7 @@ from Player import Player
 from Trick import Trick
 from betterPlayer import betterPlayer
 from collections import Counter
+
 '''
 Change auto to False if you would like to play the game manually.
 This allows you to make all passes, and plays for all four players.
@@ -38,7 +39,7 @@ class Hearts:
 
 		# Make four players
 
-		self.players = [Player("Danny"), Player("Desmond"), Player("Ben"), Player("Me")]
+		self.players = [Player("Danny"), Player("Desmond"), Player("Ben"), betterPlayer("Me")]
 		
 		'''
 		Player physical locations:
@@ -81,6 +82,7 @@ class Hearts:
 				print i
 			self.scoreRank[1]=max(secondAndThird)
 			self.scoreRank[2]=min(secondAndThird)
+
 
 
 		
@@ -278,6 +280,7 @@ class Hearts:
 
 
 
+
 def main():
 	simNum=100
 	totalScore=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
@@ -309,7 +312,6 @@ def main():
 		print hearts.scoreRank
 
 		for i in range(0,4):
-
 			if hearts.scoreRank.index(hearts.players[i].score) is 3:
 				totalScore[i][0]+=1
 			elif hearts.scoreRank.index(hearts.players[i].score) is 2:
@@ -326,6 +328,12 @@ def main():
 		print i.__str__()+"fourth: "+totalScore[i][3].__str__()
 		print 
 
+
+
+	string=""
+	for i in hearts.players[3].passRank:
+		string=string+i.__str__()+" "
+	print string
 
 
 if __name__ == '__main__':
